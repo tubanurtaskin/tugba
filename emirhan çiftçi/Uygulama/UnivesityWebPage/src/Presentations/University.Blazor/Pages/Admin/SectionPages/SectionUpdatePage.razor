@@ -1,0 +1,103 @@
+﻿@page "/admin/section/update/{Id}"
+@using AutoMapper
+@layout AdminLayout
+@using Blazored.TextEditor
+
+<EditForm Model="@updateSectionRequest" OnValidSubmit="UpdateSectionProcess">
+    <DataAnnotationsValidator />
+    <div class="d-flex flex-column align-content-around">
+        <div class="form-group mt-2">
+            <label>Name : </label>
+            <input @bind-value="updateSectionRequest.Name" class="form-control form-control-lg" type="text" placeholder="Section Priority" />
+        </div>
+        <div class="form-group mt-2">
+            <label>Content : </label>
+            <BlazoredTextEditor @ref="@QuillHtml">
+                <ToolbarContent>
+                    <select class="ql-header">
+                        <option selected=""></option>
+                        <option value="1"></option>
+                        <option value="2"></option>
+                        <option value="3"></option>
+                        <option value="4"></option>
+                        <option value="5"></option>
+                    </select>
+                    <span class="ql-formats">
+                        <button class="ql-bold"></button>
+                        <button class="ql-italic"></button>
+                        <button class="ql-underline"></button>
+                        <button class="ql-strike"></button>
+                    </span>
+                    <span class="ql-formats">
+                        <select class="ql-color"></select>
+                        <select class="ql-background"></select>
+                    </span>
+                    <span class="ql-formats">
+                        <button class="ql-list" value="ordered"></button>
+                        <button class="ql-list" value="bullet"></button>
+                    </span>
+                    <span class="ql-formats">
+                        <button class="ql-link"></button>
+                    </span>
+                </ToolbarContent>
+                <EditorContent>
+                    <h4>This Toolbar works with HTML</h4>
+                    <a href="http://BlazorHelpWebsite.com">
+                        BlazorHelpWebsite.com
+                    </a>
+                </EditorContent>
+            </BlazoredTextEditor>
+        </div>
+
+        <div class="form-group mt-2">
+            <label>Priority : </label>
+            <input @bind-value="updateSectionRequest.Priority" class="form-control form-control-lg" type="number" placeholder="Section Priority" />
+        </div>
+
+
+        <div class="flex justify-content-end align-items-center w-100 form-group mt-2">
+            <button class="btn btn-outline-info btn-block">Update</button>
+        </div>
+
+    </div>
+</EditForm>
+
+
+@code {
+    
+    BlazoredTextEditor QuillHtml;
+
+    [Parameter]
+    public string Id { get; set; }
+
+    [Inject]
+    public IUniversityService universityService { get; set; }
+
+    [Inject]
+    public NavigationManager navigationManager { get; set; }
+
+    [Inject]
+    public IMapper mapper { get; set; }
+
+    public UpdateSectionRequestModel updateSectionRequest = new UpdateSectionRequestModel(string.Empty, string.Empty, string.Empty, 0);
+
+    protected override async Task OnInitializedAsync()
+    {
+        var result = await universityService.GetSectionById(Id);
+        mapper.Map(result, updateSectionRequest);
+    }
+
+
+    private async Task UpdateSectionProcess()
+    {
+        updateSectionRequest.Content = await this.QuillHtml.GetHTML();
+
+        var res = await universityService.UpdateSection(updateSectionRequest);
+        if (res)
+        {
+            navigationManager.NavigateTo("/admin/Section/list");
+        }
+
+    }
+}
+

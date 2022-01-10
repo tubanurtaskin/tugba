@@ -1,0 +1,71 @@
+﻿@using University.Blazor.Domain.Models.HtmlModels
+@inject IJSRuntime JS
+
+@{
+    void WriteLink(IEnumerable<LinkModel> links,int index)
+    {
+        var className = index != 0 ?  "ml-[100%] -mt-10" : "";
+        <ul class="dropdown-content absolute hidden text-gray-700 w-full @className">
+
+            @foreach (var link in links)
+            {
+                if (link.SubLinks.Count > 0)
+                {
+                    <li class="dropdown">
+                        <a class="bg-gray-200 hover:bg-gray-400 py-2 px-4 block" href="#">@link.Name 🠞</a>
+                        @{
+                            WriteLink(link.SubLinks,1);
+                        }
+                    </li>
+                }
+                else
+                {
+                    <li><NavLink class="rounded-t bg-gray-200 hover:bg-gray-400 py-2 px-4 block" href="@link.Href">@link.Name</NavLink></li>
+                }
+            }
+        </ul>
+    }
+
+}
+
+
+@{
+    WriteLink(SubLinks,0);
+}
+
+
+
+
+<!-- Dropdown menu -->
+@code {
+
+    [Parameter]
+    public IEnumerable<LinkModel> SubLinks { get; set; }
+
+
+
+    public DropDown()
+    {
+
+    }
+    protected async override void OnInitialized()
+    {
+        await JS.InvokeAsync<string>("execute");
+        base.OnInitialized();
+    }
+
+
+}
+
+
+
+<!--
+  Dropdown menu, show/hide based on menu state.
+
+  Entering: "transition ease-out duration-100"
+    From: "transform opacity-0 scale-95"
+    To: "transform opacity-100 scale-100"
+  Leaving: "transition ease-in duration-75"
+    From: "transform opacity-100 scale-100"
+    To: "transform opacity-0 scale-95" -->
+<!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->

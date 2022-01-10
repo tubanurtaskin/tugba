@@ -1,0 +1,68 @@
+﻿@using University.Blazor.Application.Services
+@using University.Blazor.Domain.Models.HtmlModels
+<nav class="flex w-full z-10 bg-white sticky top-0 opacity-90 rounded-sm bg-white-purple shadow-black-900 drop-shadow-2xl border-b-2 h-24 py-3">
+    <section class="flex flex-grow-[1] items-center  justify-center">
+        <img src="./assets/img/logo-1.png" class="h-full p-1" />
+    </section>
+
+    <section class="flex flex-grow-[2] justify-start items-center">
+        @foreach (var link in Links)
+        {
+            @if (link.SubLinks.Count > 0)
+            {
+                <div class="dropdown inline-block relative">
+                    <button class="navbar-button">
+                        <span>@link.Name 🠋</span>
+                    </button>
+                    <DropDown SubLinks="@link.SubLinks" />
+                </div>
+            }
+            else
+            {
+                <button class="navbar-button">@link.Name</button>
+
+            }
+
+        }
+
+    </section>
+
+    <section class="flex flex-grow-[3] justify-end items-center mr-10">
+        <NavLink href="/login" class="navbar-button">Login</NavLink>
+    </section>
+</nav>
+
+<style>
+    .dropdown:hover > .dropdown-content {
+        display: block;
+    }
+</style>
+
+
+
+<!-- px-[18px] => bu özellik jit ile gelmiştir -->
+@code {
+
+    public IEnumerable<LinkModel> Links = new List<LinkModel>();
+    [Inject]
+    public IUniversityService UniversityService { get; set; }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        Links = await UniversityService.GetLinks();
+    }
+
+}
+
+
+@*
+
+    <button class="navbar-button">Üniversitemiz</button>
+    <button class="navbar-button">Akademik</button>
+    <button class="navbar-button">Araştırma</button>
+    <button class="navbar-button">İhtisaslaşma</button>
+    <button class="navbar-button">DU Yayınlar</button>
+    <button class="navbar-button">DÜ Duyurular</button>
+
+*@

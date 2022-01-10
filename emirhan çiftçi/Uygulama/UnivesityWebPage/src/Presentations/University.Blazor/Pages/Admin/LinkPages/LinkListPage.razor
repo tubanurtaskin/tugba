@@ -1,0 +1,94 @@
+﻿@page "/admin/link/list"
+
+@layout AdminLayout
+@inject IJSRuntime JS
+@{
+    void CreateTree(IEnumerable<LinkModel> linkModels)
+    {
+        @foreach (var linkModel in linkModels)
+        {
+            var updateUrl = $"/admin/list/update/{linkModel.Id}"; 
+            @if (linkModel.SubLinks.Count > 0)
+            {
+                <li class="list-group-item">
+                     <div class="w-100 d-flex justify-content-between">
+                        <span class="caret">@linkModel.Name</span>
+                        <ul class="d-flex">
+                            <li>
+                                <NavLink class="btn btn-sm btn-outline-warning mx-1" href="@updateUrl">Update</NavLink>
+                            </li>
+                            <li>
+                                <button  class="btn btn-sm btn-outline-danger" @onclick="@(()=> {DeleteLink(linkModel.Id);})">Delete</button>
+                            </li>
+                        </ul>
+                    </div>
+                    <ul class="nested list-group">
+                        @{
+                            CreateTree(linkModel.SubLinks);
+                        }
+                    </ul>
+                </li>
+            }
+            else
+            {
+                <li class="list-group-item w-100 d-flex justify-content-between">
+                    <span>@linkModel.Name</span>
+                    <ul class="d-flex">
+                        <li>
+                            <NavLink class="btn btn-sm btn-outline-warning mx-1" href="@updateUrl" >Update</NavLink>
+                        </li>
+                        <li>
+                            <button class="btn btn-sm btn-outline-danger" @onclick="@(()=> {DeleteLink(linkModel.Id);})">Delete</button>
+                        </li>
+                    </ul>
+                </li>
+            }
+        }
+
+    }
+
+}
+
+<div class="d-flex flex-column">
+
+<div class="d-flex justify-content-end my-1 w-100">
+    <NavLink href="/admin/list/add" class="btn btn-sm btn-outline-success btn-add">Add</NavLink>
+</div>
+
+<ul id="myUL" class="list-group">
+    @{
+        CreateTree(Links);
+    }
+</ul>
+
+</div>
+
+
+
+@code {
+
+    public IEnumerable<LinkModel> Links = new List<LinkModel>();
+
+    [Inject]
+    public IUniversityService UniversityService { get; set; }
+
+    [Inject]
+    public NavigationManager navigationManager { get; set; }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        Links = await UniversityService.GetLinks();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await JS.InvokeAsync<string>("forAdmin");
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    private void DeleteLink(string id)
+    {
+        var res = UniversityService.DeleteLink(id).GetAwaiter().GetResult();
+    }
+}

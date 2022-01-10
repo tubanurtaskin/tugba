@@ -1,0 +1,43 @@
+version: '3.4'
+
+services:
+  university.blazor:
+    restart: always
+    tty: true
+    ports:
+     - 2000:2000
+    networks:
+      - university
+
+  university.webapi:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5000
+    ports:
+      - 5000:5000
+    networks:
+     - university
+    restart: always
+    depends_on:
+     - db
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+  db:
+    environment:
+      SA_PASSWORD: "Esdea_68_00"
+      ACCEPT_EULA: "Y"
+    networks:
+      - university
+    user: root
+    ports:
+      - 1433:1433
+    volumes:
+      - "sql_data:/var/opt/mssql/data"
+
+networks:
+  university:
+    driver: bridge
+
+volumes:
+  sql_data:

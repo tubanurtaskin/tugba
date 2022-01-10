@@ -1,0 +1,26 @@
+{
+  "name": "university",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "watchcss": "postcss wwwroot/css/app.css -o wwwroot/css/app.min.css --watch",
+    "buildcss": "postcss wwwroot/css/app.css -o wwwroot/css/app.min.css",
+    "buildjs": "webpack ./wwwroot/js/app.js --output-path ./wwwroot/js --output-filename app.bundle.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@themesberg/flowbite": "^1.2.0",
+    "cssnano": "^5.0.14",
+    "postcss-cli": "^9.1.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.0",
+    "postcss": "^8.4.5",
+    "tailwindcss": "^3.0.7",
+    "webpack": "^5.65.0",
+    "webpack-cli": "^4.9.1"
+  }
+}

@@ -1,0 +1,81 @@
+﻿@page "/admin/list/add"
+@using AutoMapper
+@layout AdminLayout
+
+
+<EditForm Model="@addLinkRequest" OnValidSubmit="AddLinkProcess">
+    <DataAnnotationsValidator />
+
+    <div class="form-group">
+        <label>Name : </label>
+        <input @bind-value="addLinkRequest.Name" class="form-control form-control-lg" type="text" placeholder="Link Name" />
+    </div>
+
+    <div class="form-group">
+        <label>Href : </label>
+        <input @bind-value="addLinkRequest.Href" class="form-control form-control-lg" type="text" placeholder="Link Href" />
+    </div>
+
+     <div class="form-group">
+        <input @bind-value="addLinkRequest.IsNode" class="form-check-input" type="checkbox" placeholder="Is Node" />
+         <label class="form-check-label" for="exampleCheck1">Is Node Link ? </label>
+    </div>
+
+    <div class="form-group">
+        <InputSelect  class="form-control" @bind-Value="addLinkRequest.LinkId" >
+
+            <option value="">Select classification ...</option>
+            @foreach (var linkViewModel in linkViewModels)
+            {
+                <option value="@linkViewModel.Id">@linkViewModel.Name</option>
+            }
+        </InputSelect>
+    </div>
+
+    <div class="form-group">
+        <button class="btn btn-info btn-block">Add</button>
+    </div>
+</EditForm>
+
+
+
+
+
+@code {
+    [Inject]
+    public IUniversityService universityService { get; set; }
+
+    [Inject]
+    public NavigationManager navigationManager { get; set; }
+
+
+    public IEnumerable<LinkViewModel> linkViewModels = new List<LinkViewModel>();
+
+    [Inject]
+    public IMapper mapper { get; set; }
+
+    public AddLinkRequestModel addLinkRequest = new AddLinkRequestModel(string.Empty, string.Empty,false,string.Empty);
+
+    protected override async Task OnInitializedAsync()
+    {
+        var link = await universityService.GetLinks(false);
+
+        mapper.Map(link, linkViewModels);
+
+        await base.OnInitializedAsync();
+    }
+    private async Task AddLinkProcess()
+    {
+        if (string.IsNullOrEmpty(addLinkRequest.LinkId))
+        {
+            addLinkRequest.LinkId = null;
+        }
+        var res = await universityService.CreateLink(addLinkRequest);
+
+        if (true)
+        {
+            navigationManager.NavigateTo("/admin/link/list");
+        }
+
+    }
+}

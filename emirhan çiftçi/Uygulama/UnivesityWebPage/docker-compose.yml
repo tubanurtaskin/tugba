@@ -1,0 +1,18 @@
+version: '3.4'
+
+services:
+  university.blazor:
+    image: ${DOCKER_REGISTRY-}universityblazor
+    build:
+      context: .
+      dockerfile: src/Presentations/University.Blazor/Dockerfile
+
+  university.webapi:
+    image: ${DOCKER_REGISTRY-}universitywebapi
+    build:
+      context: .
+      dockerfile: src/Presentations/University.WebAPI/University.WebAPI/Dockerfile
+
+   
+  db:
+    image: "mcr.microsoft.com/mssql/server"
