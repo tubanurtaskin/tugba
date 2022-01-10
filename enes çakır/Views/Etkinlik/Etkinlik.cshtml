@@ -1,0 +1,21 @@
+﻿@model DataViewModel
+@{
+    Layout = "_SideLayout";
+    var image_path = $"/Image/{Model.Etkinlik.EtkinlikResim}";
+}
+<section id="first-section">
+    <div class="container-fluid side-content">
+        <div class="row">
+            <div class="col-md-5">
+                <img src="@image_path" />
+            </div>
+            <div class="col-md-7">
+                <h4 style="margin-bottom:0px;display:inline-block;">@Model.Etkinlik.EtkinlikBaslik</h4>
+                <small class="text-muted" style="float:right"><b>@Model.Etkinlik.EtkinlikTarih</b></small>
+                <hr />
+                <p>@Model.Etkinlik.EtkinlikAciklama</p>
+            </div>
+        </div>
+    </div>
+    <div class="overlay"><img src="~/imgs/campus-bg.jpg"></div>
+</section>

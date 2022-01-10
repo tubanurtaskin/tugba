@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Fakulte>
+@{
+    Layout = "_PanelLayout";
+}
+<div class="fakulteler">
+    <center><h4><b>FAKÜLTELER</b></h4></center>
+    <br />
+    <a asp-controller="Panel" class="btn btn-outline-success" style="float:right" asp-action="EditFakulteler">Fakülte Ekle</a>
+    <br />
+    <br />
+    <a class="btn btn-outline-danger disabled w-100" style="background-color:rgb(255 0 0 / 0.15);color:red;">Bir fakülteyi silmek beraberinde ilgili tüm bölümleri de silmektedir.</a>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Adı</th>
+                <th scope="col">Tel</th>
+                <th scope="col">Mail</th>
+                <th scope="col">#</th>
+                <th scope="col">#</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var fakulte in Model)
+            {
+                <tr>
+                    <th scope="row">@fakulte.Id</th>
+                    <td>@fakulte.FakulteAd</td>
+                    <td>@fakulte.FakulteTel</td>
+                    <td>@fakulte.FakulteMail</td>
+                    <td>
+                        <a class="btn btn-outline-info" asp-controller="Panel" asp-action="EditFakulteler" asp-route-id="@fakulte.Id">Düzenle</a>
+                    </td>
+                    <td>
+                        <a class="btn btn-outline-danger" asp-controller="Panel" asp-action="RemoveFakulte" asp-route-id="@fakulte.Id">Kaldır</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

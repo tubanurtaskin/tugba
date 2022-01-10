@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Etkinlik>
+@{
+    Layout = "_PanelLayout";
+}
+<div class="duyurular">
+    <center><h4><b>ETKİNLİKLER</b></h4></center>
+    <br />
+    <a asp-controller="Panel" class="btn btn-outline-success" style="float:right" asp-action="EditEtkinlik">Etkinlik Ekle</a>
+    <br />
+    <br />
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Başlık</th>
+                <th scope="col">Tarih</th>
+                <th scope="col">#</th>
+                <th scope="col">#</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var etkinlik in Model)
+            {
+                <tr>
+                    <th scope="row">@etkinlik.Id</th>
+                    <th scope="row">@etkinlik.EtkinlikBaslik</th>
+                    <th scope="row">@etkinlik.EtkinlikTarih</th>
+                    <td>
+                        <a class="btn btn-outline-info" asp-controller="Panel" asp-action="EditEtkinlik" asp-route-id="@etkinlik.Id">Düzenle</a>
+                    </td>
+                    <td>
+                        <a class="btn btn-outline-danger" asp-controller="Panel" asp-action="RemoveEtkinlik" asp-route-id="@etkinlik.Id">Kaldır</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

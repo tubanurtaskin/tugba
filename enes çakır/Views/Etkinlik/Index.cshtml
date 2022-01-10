@@ -1,0 +1,32 @@
+﻿@model DataViewModel
+@{
+    Layout = "_SideLayout";
+}
+<section id="first-section">
+    <div class="container-fluid side-content">
+        <h3 id="baslik" class="pt-3 px-3">ETKİNLİKLER</h3>
+        <hr />
+        <div class="row">
+            @foreach (Etkinlik etkinlik in Model.Etkinlikler)
+            {
+                var image_path = $"/Image/{etkinlik.EtkinlikResim}";
+                <div class="col-md-3 mb-4">
+                    <a id="item" asp-controller="Etkinlik" asp-action="Etkinlik" asp-route-id="@etkinlik.Id">
+                        <div class="card">
+                            <div class="top-line"></div>
+                            <img src="@image_path" class="h-50" />
+                            <div class="card-body">
+                                <h5 class="card-title">@etkinlik.EtkinlikBaslik</h5>
+                                <p class="card-text">@etkinlik.EtkinlikAciklama</p>
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-muted">@etkinlik.EtkinlikTarih</small>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="overlay"><img src="~/imgs/campus-bg.jpg"></div>
+</section>

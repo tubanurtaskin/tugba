@@ -1,0 +1,43 @@
+﻿@model EtkinlikViewModel
+@{
+    Layout = "_PanelLayout";
+}
+<div class="card card-primary">
+    <div class="card-header">
+        <h3 class="card-title">Etkinlik Ekle-Düzenle</h3>
+    </div>
+    <form asp-controller="Panel" asp-action="EditEtkinlik" method="post" enctype="multipart/form-data">
+        <input asp-for="Id" type="hidden" />
+        <div class="card-body">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Etkinlik Başlığı</label>
+                <input asp-for="EtkinlikBaslik" class="form-control" id="exampleInputEmail1" placeholder="Başlık">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Etkinlik Açıklaması</label>
+                <textarea asp-for="EtkinlikAciklama" class="form-control" rows="3" placeholder="Açıklama.." style="margin-top: 0px; margin-bottom: 0px; height: 75px;"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="exampleInputFile">Etkinlik Görsel</label>
+                <div class="input-group">
+                    <div class="custom-file">
+                        <input type="hidden" asp-for="yukluEtkinlikResim" class="custom-file-input" id="exampleInputFile">
+                        <input type="file" asp-for="EtkinlikResim" class="custom-file-input" id="exampleInputFile">
+                        <label class="custom-file-label" for="exampleInputFile">Görsel Seçiniz...</label>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="card-footer" style="float:left;background-color:white">
+            <button type="submit" class="btn btn-primary">Kaydet</button>
+        </div>
+        <div class="card-footer" style="float:right;background-color:white">
+            <button asp-controller="Panel" asp-action="Etkinlikler" class="btn btn-warning">Geri Dön</button>
+        </div>
+    </form>
+</div>
+@section scripts{
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+}

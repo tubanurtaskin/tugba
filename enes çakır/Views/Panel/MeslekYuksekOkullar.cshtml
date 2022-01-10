@@ -1,0 +1,40 @@
+﻿@model IEnumerable<MeslekYuksekOkul>
+@{
+    Layout = "_PanelLayout";
+}
+<div class="meslekyuksekokullar">
+    <center><h4><b>MESLEK YÜKSEK OKULLAR</b></h4></center>
+    <br />
+    <a asp-controller="Panel" class="btn btn-outline-success" style="float:right" asp-action="EditMeslekYuksekOkullar">Meslek Yüksekokul Ekle</a>
+    <br />
+    <br />
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Ad</th>
+                <th scope="col">Tel</th>
+                <th scope="col">Mail</th>
+                <th scope="col">#</th>
+                <th scope="col">#</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var meslekYuksekOkul in Model)
+            {
+                <tr>
+                    <th scope="row">@meslekYuksekOkul.Id</th>
+                    <th scope="row">@meslekYuksekOkul.MeslekYuksekOkulAd</th>
+                    <th scope="row">@meslekYuksekOkul.MeslekYuksekOkulTel</th>
+                    <th scope="row">@meslekYuksekOkul.MeslekYuksekOkulMail</th>
+                    <td>
+                        <a class="btn btn-outline-info" asp-controller="Panel" asp-action="EditMeslekYuksekOkullar" asp-route-id="@meslekYuksekOkul.Id">Düzenle</a>
+                    </td>
+                    <td>
+                        <a class="btn btn-outline-danger" asp-controller="Panel" asp-action="RemoveMeslekYuksekOkul" asp-route-id="@meslekYuksekOkul.Id">Kaldır</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

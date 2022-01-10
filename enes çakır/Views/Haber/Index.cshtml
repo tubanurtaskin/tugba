@@ -1,0 +1,32 @@
+﻿@model DataViewModel
+@{
+    Layout = "_SideLayout";
+}
+<section id="first-section">
+    <div class="container-fluid side-content">
+        <h3 id="baslik" class="pt-3 px-3">HABERLER</h3>
+        <hr />
+        <div class="row">
+            @foreach (Haber haber in Model.Haberler)
+            {
+                var image_path = $"/Image/{haber.HaberResim}";
+                <div class="col-md-3 mb-4">
+                    <a id="item" asp-controller="Haber" asp-action="Haber" asp-route-id="@haber.Id">
+                        <div class="card">
+                            <div class="top-line"></div>
+                            <img src="@image_path" class="h-50" />
+                            <div class="card-body">
+                                <h5 class="card-title">@haber.HaberBaslik</h5>
+                                <p class="card-text">@haber.HaberAciklama</p>
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-muted">@haber.HaberTarih</small>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="overlay"><img src="~/imgs/campus-bg.jpg"></div>
+</section>

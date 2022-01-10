@@ -1,0 +1,120 @@
+﻿@model DataCollectionViewModel
+@{
+    var image_path="null";
+}
+
+<!--MAIN CONTENT-->
+<section id="first-section">
+    <div class="container main-content">
+        <div class="row">
+            <div class="col-md-6 duyuru-etkinlik">
+                @foreach (Duyuru duyuru in Model.Duyurular)
+                {
+                    image_path= $"/Image/{duyuru.DuyuruResim}";
+                    <a asp-controller="Duyuru" asp-action="Duyuru" asp-route-id="@duyuru.Id" class="card-link">
+                        <div class="inline-card">
+                            <img src="@image_path">
+                            <div class="inline-card-text">
+                                <h5>@duyuru.DuyuruBaslik</h5>
+                                <p>@duyuru.DuyuruAciklama</p>
+                            </div>
+                        </div>
+                    </a>
+                }
+            </div>
+            <div class="col-md-6 duyuru-etkinlik">
+                @foreach (Etkinlik etkinlik in Model.Etkinlikler)
+                {
+                    image_path= $"/Image/{etkinlik.EtkinlikResim}";
+                    <a asp-controller="Etkinlik" asp-action="Etkinlik" asp-route-id="@etkinlik.Id" class="card-link">
+                        <div class="inline-card">
+                            <img src="@image_path">
+                            <div class="inline-card-text">
+                                <h5>@etkinlik.EtkinlikBaslik</h5>
+                                <p>@etkinlik.EtkinlikAciklama</p>
+                            </div>
+                        </div>
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+    <video autoplay muted loop>
+        <source src="./imgs/intro.mp4" type="video/mp4">
+    </video>
+    <div class="overlay"><img src="imgs/overlay.png"></div>
+</section>
+<!--SECOND CONTENT-->
+<section id="second-section">
+    <h1>HABERLER</h1>
+    <div class="row row-cols-1 row-cols-md-4 g-5 w-100 p-4">
+        @foreach (Haber haber in Model.Haberler)
+        {
+            image_path= $"/Image/{haber.HaberResim}";
+            <a id="item" asp-controller="Haber" asp-action="haber" asp-route-id="@haber.Id">
+                <div class="col">
+                    <div class="card">
+                        <div class="top-line"></div>
+                        <img src="@image_path" class="h-75" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">@haber.HaberBaslik</h5>
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-muted">@haber.HaberTarih</small>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        }
+    </div>
+</section>
+<!--THIRD CONTENT-->
+<section id="third-section">
+    <h1>ÜNİVERSİTEMİZ</h1>
+    <!--First Row-->
+    <div class="row row-cols-md-4 g-5 w-100 p-4">
+        <div class="col">
+            <div class="info-cards">
+                <h1 id="info-text">FAKÜLTE</h1>
+                <h1 class="uni-data">@ViewBag.fakulteSayisi</h1>
+            </div>
+        </div>
+        <div class="col">
+            <div class="info-cards">
+                <h1 id="info-text">ENSTİTÜ</h1>
+                <h1 class="uni-data">@ViewBag.enstituSayisi</h1>
+            </div>
+        </div>
+        <div class="col">
+            <div class="info-cards">
+                <h1 id="info-text">YÜKSEKOKUL</h1>
+                <h1 class="uni-data">@ViewBag.yuksekOkulSayisi</h1>
+            </div>
+        </div>
+        <div class="col">
+            <div class="info-cards">
+                <h1 id="info-text">M. YÜKSEKOKUL</h1>
+                <h1 class="uni-data">@ViewBag.meslekYuksekOkulSayisi</h1>
+            </div>
+        </div>
+    </div>
+    <!--Second Row-->
+    <div class="row row-cols-md-2 g-5 w-100 p-4">
+        <div class="col">
+            <div class="info-cards">
+                <h1 id="info-text">LİSANS PROGRAMI</h1>
+                <h1 class="uni-data">
+                    @ViewBag.bolumSayisi
+                </h1>
+            </div>
+        </div>
+        <div class="col">
+            <div class="info-cards">
+                <h1 id="info-text">LİSANSÜSTÜ PROGRAMI</h1>
+                <h1 class="uni-data">
+                    @ViewBag.lisansustuBolumSayisi
+                </h1>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,59 @@
+﻿@model EnsitutuViewModel
+@{
+    Layout = "_PanelLayout";
+}
+
+<div class="card card-primary">
+    <div class="card-header">
+        <h3 class="card-title">Enstitü Ekle-Düzenle</h3>
+    </div>
+    <form asp-controller="Panel" asp-action="EditEnstituler" method="post" enctype="multipart/form-data">
+        <input asp-for="Id" type="hidden" />
+        <div class="card-body">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Enstitü Adı</label>
+                <input asp-for="EnsitutuAd" class="form-control" id="exampleInputEmail1" placeholder="Başlık">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Enstitü Adresi</label>
+                <textarea asp-for="EnsitutuAdres" class="form-control" rows="3" placeholder="Adres.." style="margin-top: 0px; margin-bottom: 0px; height: 75px;"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Enstitü Açıklaması</label>
+                <textarea asp-for="EnsitutuAciklama" class="form-control" rows="3" placeholder="Açıklama.." style="margin-top: 0px; margin-bottom: 0px; height: 75px;"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Enstitü Tel</label>
+                <input type="tel" asp-for="EnsitutuTel" class="form-control" id="exampleInputEmail1" placeholder="(0___) - ___ - __ - __">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                </div>
+                <input type="email" asp-for="EnsitutuMail" class="form-control" placeholder="Email">
+            </div>
+
+            <div class="form-group">
+                <label for="exampleInputFile">Enstitü Görsel</label>
+                <div class="input-group">
+                    <div class="custom-file">
+                        <input type="hidden" asp-for="yukluEnsitutuResim" class="custom-file-input" id="exampleInputFile">
+                        <input type="file" asp-for="EnsitutuResim" class="custom-file-input" id="exampleInputFile">
+                        <label class="custom-file-label" for="exampleInputFile">Görsel Seçiniz...</label>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="card-footer" style="float:left;background-color:white">
+            <button type="submit" class="btn btn-primary">Kaydet</button>
+        </div>
+        <div class="card-footer" style="float: right; background-color: white ">
+            <button asp-controller="Panel" asp-action="Enstituler" class="btn btn-warning">Geri Dön</button>
+        </div>
+    </form>
+</div>
+
+@section scripts{
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+}
